@@ -83,10 +83,10 @@ def main():
                 "rect_size_px": [float(w), float(h)],
                 "rect_angle_deg": float(angle),
                 # 位姿相关的字段：接入位姿计算后填写，单位见 data/target_spec.md
-                "tvec_cam_mm": None,
-                "base_mm": None,
-                "yaw_deg": None,
-                "reproj_px": None,
+                "tvec_cam_mm": result["tvec_cam_mm"],
+                "base_mm": result["base_mm"],
+                "yaw_deg": result["yaw_deg"],
+                "reproj_px": result["reproj_px"],
             })
         if writer is not None:
             writer.write(canvas)

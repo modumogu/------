@@ -34,7 +34,7 @@ def draw_detection(frame, rect, contour):
     cv2.circle(canvas, (int(round(cx)), int(round(cy))), 4, (0, 0, 255), -1)
     text = (f"center=({cx:6.1f},{cy:6.1f}) "
             f"size=({w:5.1f}x{h:5.1f}) angle={angle:5.1f}")
-    for color, thick in (((255, 255, 255), 3), ((20, 40, 20), 1)):
+    for color, thick in (((255, 255, 255), 3), ((20, 40, 20), 3)):
         cv2.putText(canvas, text, (12, 28), FONT, 0.6, color, thick, cv2.LINE_AA)
     return canvas
 
