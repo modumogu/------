@@ -76,6 +76,9 @@ def main():
             result=position(rect,frame)
             canvas = draw_detection(result["frame1"], rect, contour)
             print(format_detection_line(index, rect))
+            text=(f"base_x={result["base_mm"][0]:6.2f},  y={result["base_mm"][1]:6.2f},  z={result["base_mm"][2]:6.2f}mm\n"
+                   f"yaw={result["yaw_deg"]:5.2f} deg,  reproj={result["reproj_px"]:5.2f} px")
+            cv2.putText(canvas,text,(30,100),cv2.FONT_HERSHEY_SIMPLEX,0.6,(255,255,0),2,cv2.LINE_AA)
             (cx, cy), (w, h), angle = rect
             records.append({
                 "frame": index,
