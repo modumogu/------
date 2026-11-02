@@ -4,6 +4,8 @@ from output import rect_corners
 from camera import CameraModel , load_handeye
 
 def position(rect,frame):
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
+    gray=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
     objectpoints=np.array([
     [-40.0,40.0,0], 
     [40.0,40.0,0],
@@ -19,7 +21,8 @@ def position(rect,frame):
         [w/2, h/2],
         [-w/2, h/2],
     ], dtype=np.float32)
-    imgpoints = (local @ rotate.T + [cx, cy]).astype(np.float32)
+    imgp_demo = (local @ rotate.T + [cx, cy]).astype(np.float32)
+    imgpoints = cv2.cornerSubPix(gray, imgp_demo, (11, 11), (-1, -1), criteria)
     camera=CameraModel.from_file(r"data\calibration.yaml")
     K=camera.K
     D=camera.dist
