@@ -36,6 +36,17 @@ def position(rect,frame):
     D=camera.dist
     ok, rvec, tvec = cv2.solvePnP(objectpoints, imgpoints, K, D,useExtrinsicGuess=False, flags=cv2.SOLVEPNP_IPPE)
     cv2.drawFrameAxes(frame, K, D, rvec, tvec, 100)
+
+    T_base_cam=load_handeye(r"任务项目\data\calibration.yaml")
+    #AI帮我拼的矩阵
+    R_ct, _ = cv2.Rodrigues(rvec)      # 轴角 -> 3×3 旋转
+    T_cam_target = np.eye(4)
+    T_cam_target[:3, :3] = R_ct        # 左上 3×3：旋转
+    T_cam_target[:3, 3] = tvec.ravel() # 右上一列：平移
+    # 最后一行保持 [0, 0, 0, 1]
+    #开始变换参考系
+    T_base_target = T_base_cam @ T_cam_target
     return {
         "frame1": frame,
+        "T_base_target": T_base_target,
     }
