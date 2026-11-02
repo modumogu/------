@@ -53,7 +53,7 @@ def main():
     writer = None
     if not args.no_video:
         writer = cv2.VideoWriter(
-            args.out, cv2.VideoWriter_fourcc(*"MJPG"), fps, (height, width)
+            args.out, cv2.VideoWriter_fourcc(*"MJPG"), fps, (width, height)
         )
         if not writer.isOpened():
             raise SystemExit(f"无法创建输出视频：{args.out}")
