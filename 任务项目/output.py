@@ -16,10 +16,10 @@ def rect_corners(rect):
     c, s = np.cos(np.radians(angle)), np.sin(np.radians(angle))
     rotate = np.array([[c, -s], [s, c]], dtype=np.float32)
     local = np.array([
-        [-w, -h],
-        [w, -h],
-        [w, h],
-        [-w, h],
+        [-w/2, -h/2],
+        [w/2, -h/2],
+        [w/2, h/2],
+        [-w/2, h/2],
     ], dtype=np.float32)
     return (local @ rotate.T + [cx, cy]).astype(np.int32)
 
