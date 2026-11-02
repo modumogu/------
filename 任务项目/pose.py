@@ -23,7 +23,11 @@ def position(rect,frame):
     ], dtype=np.float32)
     imgp_demo = (local @ rotate.T + [cx, cy]).astype(np.float32)
     imgpoints = cv2.cornerSubPix(gray, imgp_demo, (11, 11), (-1, -1), criteria)
-    camera=CameraModel.from_file(r"data\calibration.yaml")
+    camera=CameraModel.from_file(r"任务项目\data\calibration.yaml")
     K=camera.K
     D=camera.dist
     ok, rvec, tvec = cv2.solvePnP(objectpoints, imgpoints, K, D,useExtrinsicGuess=False, flags=cv2.SOLVEPNP_IPPE)
+    cv2.drawFrameAxes(frame, K, D, rvec, tvec, 100)
+    return {
+        "frame1": frame,
+    }

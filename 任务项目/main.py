@@ -17,6 +17,7 @@ import cv2
 from camera import CameraModel, load_handeye
 from detector import detect_target
 from output import draw_detection, format_detection_line
+from pose import position
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -72,7 +73,8 @@ def main():
             cv2.putText(canvas, "target lost", (12, 28), cv2.FONT_HERSHEY_SIMPLEX,
                         0.7, (0, 0, 255), 2)
         else:
-            canvas = draw_detection(frame, rect, contour)
+            result=position(rect,frame)
+            canvas = draw_detection(result["frame1"], rect, contour)
             print(format_detection_line(index, rect))
             (cx, cy), (w, h), angle = rect
             records.append({
