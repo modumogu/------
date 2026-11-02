@@ -21,7 +21,7 @@ def detect_target(frame, thresh=60, min_area=1500.0, max_area=40000.0):
     """
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) if frame.ndim == 3 else frame
     _, binary = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY_INV)
-    _, contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     best, best_area = None, 0.0
     for contour in contours:
