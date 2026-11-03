@@ -4,9 +4,15 @@ from camera import CameraModel
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 base=CameraModel.from_file(r"任务项目\data\calibration.yaml")
-
+#定义objp 形成左上角为【0，0，0】的棋盘格坐标系
+#先建立一个6*9的空表
+#再用循环把每个点的坐标写进去，单位mm
 objp = np.zeros((6*9, 3), np.float32)
-objp[:, :2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)*25.0
+k = 0
+for y in range(6):
+    for x in range(9):
+        objp[k] = (x * 25.0, y * 25.0, 0)
+        k += 1
 
 objpoints = []
 imgpoints = []
@@ -33,7 +39,7 @@ while True:
         imgpoints.append(corners2)
 
         cv2.drawChessboardCorners(img, (9, 6), corners2, ret)
-
+        #把点给写出来
         for k, pt in enumerate(corners2):
             x, y = int(pt[0]), int(pt[1])
             cv2.putText(img, str(k), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 255), 1) 
@@ -42,7 +48,7 @@ while True:
     else:
         lost+=1   
 print("有效帧:", yes,"无效帧",lost)
-
+#进行求解内参和畸变系数
 rms, K, D, rvecs, tvecs = cv2.calibrateCamera(
     objpoints, imgpoints, gray.shape[::-1], None, None)
 

@@ -17,6 +17,7 @@ def position(rect,frame):
     [40.0,-40.0,0],
     [-40.0,-40.0,0],
     ],np.float32)
+    #偷用了output中的代码因为output函数中的代码是int型，放pnp里会报错
     (cx, cy), (w, h), angle = rect
     c, s = np.cos(np.radians(angle)), np.sin(np.radians(angle))
     rotate = np.array([[c, -s], [s, c]], dtype=np.float32)
@@ -37,6 +38,7 @@ def position(rect,frame):
     ok, rvec, tvec = cv2.solvePnP(objectpoints, imgpoints, K, D,useExtrinsicGuess=False, flags=cv2.SOLVEPNP_IPPE)
     cv2.drawFrameAxes(frame, K, D, rvec, tvec, 100)
 
+    
     T_base_cam=load_handeye(r"任务项目\data\handeye.yaml")
     #AI帮我拼的矩阵
     R_ct, _ = cv2.Rodrigues(rvec)      # 轴角 -> 3×3 旋转
